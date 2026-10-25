@@ -132,13 +132,13 @@ En una Mac con Apple Silicon conviene `api_cpu_architecture = "ARM64"`.
 ### 3. Despliegue
 
 El state vive en un bucket S3 (backend remoto). El bucket se nombra por convención
-`bookup-tfstate-<account_id>`; crealo una vez (o dejá que lo cree el pipeline):
+`bookup-g6-tfstate-<account_id>`; crealo una vez (o dejá que lo cree el pipeline):
 
 ```bash
 ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
-aws s3 mb "s3://bookup-tfstate-$ACCOUNT_ID" --region us-east-1
+aws s3 mb "s3://bookup-g6-tfstate-$ACCOUNT_ID" --region us-east-1
 
-terraform init -backend-config="bucket=bookup-tfstate-$ACCOUNT_ID"
+terraform init -backend-config="bucket=bookup-g6-tfstate-$ACCOUNT_ID"
 terraform validate
 terraform plan -out tfplan
 terraform apply tfplan
@@ -209,7 +209,7 @@ dispare infraestructura real: el `apply` es deliberado (botón + tilde), nunca a
    infraestructura, el workflow **compila el frontend y lo sube al bucket**, así que al
    terminar la plataforma queda servida en `frontend_url` sin pasos manuales.
 
-El state se guarda en `s3://bookup-tfstate-<account_id>` (versionado, privado, con bloqueo
+El state se guarda en `s3://bookup-g6-tfstate-<account_id>` (versionado, privado, con bloqueo
 nativo de S3), que el propio workflow crea si no existe.
 
 ### Chequeos de cada PR

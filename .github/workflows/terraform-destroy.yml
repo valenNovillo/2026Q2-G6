@@ -53,13 +53,13 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: |
           ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
-          echo "bucket=bookup-tfstate-${ACCOUNT_ID}" >> "$GITHUB_OUTPUT"
+          echo "bucket=bookup-g6-tfstate-${ACCOUNT_ID}" >> "$GITHUB_OUTPUT"
 
       - name: terraform init (backend S3)
         run: terraform init -input=false -backend-config="bucket=${{ steps.backend.outputs.bucket }}"
 
       # Los buckets y el repo de ECR tienen force_destroy, asi que se borran con
-      # contenido. El bucket del state (bookup-tfstate-*) NO lo maneja Terraform,
+      # contenido. El bucket del state (bookup-g6-tfstate-*) NO lo maneja Terraform,
       # asi que queda; se puede borrar a mano despues si se quiere.
       - name: terraform destroy
         run: terraform destroy -input=false -no-color -auto-approve
